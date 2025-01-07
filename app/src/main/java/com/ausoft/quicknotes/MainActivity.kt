@@ -12,11 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ausoft.quicknotes.ui.theme.QuickNotesTheme
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var db: FirebaseFirestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        db = FirebaseFirestore.getInstance()
+        db.collection("users").id
         setContent {
             QuickNotesTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
