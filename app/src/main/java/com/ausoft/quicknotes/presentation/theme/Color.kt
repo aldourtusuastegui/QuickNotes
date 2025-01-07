@@ -1,4 +1,4 @@
-package com.ausoft.quicknotes.ui.theme
+package com.ausoft.quicknotes.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

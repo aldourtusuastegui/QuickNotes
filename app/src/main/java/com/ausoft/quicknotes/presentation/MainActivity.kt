@@ -1,4 +1,4 @@
-package com.ausoft.quicknotes
+package com.ausoft.quicknotes.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,9 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.ausoft.quicknotes.ui.theme.QuickNotesTheme
+import com.ausoft.quicknotes.presentation.theme.QuickNotesTheme
 import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var db: FirebaseFirestore
