@@ -9,7 +9,9 @@ import javax.inject.Inject
 class NoteRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : NoteRepository {
-    override suspend fun addNote(note: NoteModel) {
-        remoteDataSource.addNote(note.toNoteEntity())
+    override suspend fun addNote(note: NoteModel) : Result<Unit> {
+        return runCatching {
+            remoteDataSource.addNote(note.toNoteEntity())
+        }
     }
 }

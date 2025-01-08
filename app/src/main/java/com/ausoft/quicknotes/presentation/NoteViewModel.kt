@@ -1,5 +1,6 @@
 package com.ausoft.quicknotes.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ausoft.quicknotes.domain.models.NoteModel
@@ -20,10 +21,13 @@ class NoteViewModel @Inject constructor(
 
     fun addNote() {
         viewModelScope.launch(Dispatchers.IO) {
-            addNoteUseCase(NoteModel("New Title","New Content"))
+            addNoteUseCase(NoteModel("New Title", "New Content")).onSuccess {
+                Log.d("result","success")
+            }.onFailure {
+                Log.d("result","failure")
+            }
         }
     }
-
 }
 
 data class NoteUiState(
