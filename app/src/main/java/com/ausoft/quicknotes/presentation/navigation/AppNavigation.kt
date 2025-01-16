@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ausoft.quicknotes.presentation.note.AddNoteScreen
+import com.ausoft.quicknotes.presentation.ui.note.AddNoteScreen
 
 @Composable
 fun AppNavigation(innerPadding: PaddingValues) {

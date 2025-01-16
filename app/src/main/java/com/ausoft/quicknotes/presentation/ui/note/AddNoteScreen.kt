@@ -1,4 +1,4 @@
-package com.ausoft.quicknotes.presentation.note
+package com.ausoft.quicknotes.presentation.ui.note
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
