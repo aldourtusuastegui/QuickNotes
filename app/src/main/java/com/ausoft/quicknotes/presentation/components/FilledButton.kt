@@ -6,8 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun FilledButton(modifier: Modifier,title: String, onClick: () -> Unit) {
-    Button(modifier = modifier,onClick = onClick) {
+fun FilledButton(
+    modifier: Modifier,
+    title: String,
+    isEnabled: Boolean = true,
+    onClick: () -> Unit
+) {
+    Button(modifier = modifier, enabled = isEnabled, onClick = onClick) {
         Text(text = title)
     }
 }

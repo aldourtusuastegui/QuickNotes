@@ -1,6 +1,5 @@
 package com.ausoft.quicknotes.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ausoft.quicknotes.domain.models.NoteModel
@@ -28,17 +27,19 @@ class NoteViewModel @Inject constructor(
     }
 
     fun addNote() {
+        _uiState.value = _uiState.value.copy(isButtonEnabled = false)
         viewModelScope.launch(Dispatchers.IO) {
             addNoteUseCase(NoteModel(_uiState.value.title, _uiState.value.content)).onSuccess {
-                Log.d("result","success")
+                _uiState.value = _uiState.value.copy(isButtonEnabled = true)
             }.onFailure {
-                Log.d("result","failure")
+                _uiState.value = _uiState.value.copy(isButtonEnabled = true)
             }
         }
     }
 }
 
 data class NoteUiState(
+    val isButtonEnabled: Boolean = true,
     val title: String = "",
     val content: String = "",
 )

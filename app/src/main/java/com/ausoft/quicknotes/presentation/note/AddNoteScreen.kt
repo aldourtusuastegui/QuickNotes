@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ausoft.quicknotes.R
 import com.ausoft.quicknotes.presentation.NoteViewModel
 import com.ausoft.quicknotes.presentation.components.FilledButton
 import com.ausoft.quicknotes.presentation.components.InputTextField
@@ -30,7 +32,7 @@ fun AddNoteScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            label = "Title",
+            label = stringResource(R.string.title),
             text = uiState.value.title
         ) {
             viewModel.onTitleChange(it)
@@ -40,15 +42,18 @@ fun AddNoteScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            label = "Content",
+            label = stringResource(R.string.content),
             text = uiState.value.content
         ) {
             viewModel.onContentChange(it)
         }
 
         FilledButton(
-            modifier = Modifier.fillMaxWidth().padding(top = 16.dp, start = 16.dp, end = 16.dp),
-            title = "ADD NOTE"
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+            title = stringResource(R.string.add_note),
+            isEnabled = uiState.value.isButtonEnabled
         ) {
             viewModel.addNote()
         }
