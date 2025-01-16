@@ -26,20 +26,24 @@ class NoteViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(content = content)
     }
 
+    fun validateForm() {
+        _uiState.value = _uiState.value.copy(isButtonEnabled = _uiState.value.title.isNotEmpty() && _uiState.value.content.isNotEmpty())
+    }
+
     fun addNote() {
-        _uiState.value = _uiState.value.copy(isButtonEnabled = false)
         viewModelScope.launch(Dispatchers.IO) {
             addNoteUseCase(NoteModel(_uiState.value.title, _uiState.value.content)).onSuccess {
-                _uiState.value = _uiState.value.copy(isButtonEnabled = true)
+                _uiState.value = _uiState.value.copy(isButtonEnabled = false, title = "", content = "", wasSuccessfullyAdded = true)
             }.onFailure {
-                _uiState.value = _uiState.value.copy(isButtonEnabled = true)
+                _uiState.value = _uiState.value.copy(isButtonEnabled = false, title = "", content = "", wasSuccessfullyAdded = false)
             }
         }
     }
 }
 
 data class NoteUiState(
-    val isButtonEnabled: Boolean = true,
+    val isButtonEnabled: Boolean = false,
     val title: String = "",
     val content: String = "",
+    val wasSuccessfullyAdded: Boolean = false
 )
