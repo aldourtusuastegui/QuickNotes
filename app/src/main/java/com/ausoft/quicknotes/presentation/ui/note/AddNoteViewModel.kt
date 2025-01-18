@@ -1,4 +1,4 @@
-package com.ausoft.quicknotes.presentation
+package com.ausoft.quicknotes.presentation.ui.note
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +33,9 @@ class NoteViewModel @Inject constructor(
 
     fun addNote() {
         viewModelScope.launch(Dispatchers.IO) {
+            _uiState.update {
+                it.copy(isButtonEnabled = false)
+            }
             addNoteUseCase(
                 NoteModel(
                     title = _uiState.value.title,
