@@ -1,6 +1,7 @@
 package com.ausoft.quicknotes.data.datasources
 
 import com.ausoft.quicknotes.data.entities.NoteEntity
+import com.ausoft.quicknotes.data.mappers.toMap
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -10,7 +11,7 @@ class RemoteDataSourceImpl @Inject constructor(
 ) : RemoteDataSource {
 
     override suspend fun addNote(note: NoteEntity) {
-        firestore.collection("notes").add(note).await()
+        firestore.collection("notes").add(note.toMap()).await()
     }
 
     override suspend fun getNotes(): List<NoteEntity> {

@@ -18,3 +18,10 @@ fun NoteModel.toNoteEntity(): NoteEntity {
         content = content
     )
 }
+
+fun NoteEntity.toMap(): Map<String, Any?> {
+    return mapOf(
+        "title" to title,
+        "content" to content
+    )
+}
