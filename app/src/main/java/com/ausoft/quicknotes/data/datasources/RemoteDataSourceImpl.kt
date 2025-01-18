@@ -19,8 +19,9 @@ class RemoteDataSourceImpl @Inject constructor(
             .await()
         return snapshot.documents.map { document ->
             NoteEntity(
-                title = document.getString("title") ?: "",
-                content = document.getString("content") ?: ""
+                id = document.id,
+                title = document.getString("title"),
+                content = document.getString("content")
             )
         }
     }

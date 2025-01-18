@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,10 +33,29 @@ class NoteViewModel @Inject constructor(
 
     fun addNote() {
         viewModelScope.launch(Dispatchers.IO) {
-            addNoteUseCase(NoteModel(_uiState.value.title, _uiState.value.content)).onSuccess {
-                _uiState.value = _uiState.value.copy(isButtonEnabled = false, title = "", content = "", wasSuccessfullyAdded = true)
+            addNoteUseCase(
+                NoteModel(
+                    title = _uiState.value.title,
+                    content = _uiState.value.content
+                )
+            ).onSuccess {
+                _uiState.update {
+                    it.copy(
+                        isButtonEnabled = false,
+                        title = "",
+                        content = "",
+                        wasSuccessfullyAdded = true
+                    )
+                }
             }.onFailure {
-                _uiState.value = _uiState.value.copy(isButtonEnabled = false, title = "", content = "", wasSuccessfullyAdded = false)
+                _uiState.update {
+                    it.copy(
+                        isButtonEnabled = false,
+                        title = "",
+                        content = "",
+                        wasSuccessfullyAdded = false
+                    )
+                }
             }
         }
     }

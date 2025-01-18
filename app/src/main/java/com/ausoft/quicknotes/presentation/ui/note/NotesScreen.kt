@@ -40,8 +40,8 @@ fun NotesScreen(
         ) {
             items(uiState.notes) { note ->
                 NoteItem(
-                    title = note.title,
-                    content = note.content
+                    title = note.title.orEmpty(),
+                    content = note.content.orEmpty()
                 )
             }
         }
