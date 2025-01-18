@@ -17,6 +17,7 @@ import com.ausoft.quicknotes.R
 import com.ausoft.quicknotes.presentation.NoteViewModel
 import com.ausoft.quicknotes.presentation.components.FilledButton
 import com.ausoft.quicknotes.presentation.components.InputTextField
+import com.ausoft.quicknotes.presentation.components.TitleText
 
 @Composable
 fun AddNoteScreen(
@@ -30,8 +31,10 @@ fun AddNoteScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+            .padding(16.dp)
     ) {
+
+        TitleText(Modifier.padding(start = 16.dp), stringResource(R.string.add_note))
 
         InputTextField(
             modifier = Modifier
