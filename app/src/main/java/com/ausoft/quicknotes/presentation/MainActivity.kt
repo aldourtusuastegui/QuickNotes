@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.ausoft.quicknotes.presentation.components.BottomBarMaterial3
 import com.ausoft.quicknotes.presentation.components.SmallTopAppBar
 import com.ausoft.quicknotes.presentation.navigation.AppNavigation
+import com.ausoft.quicknotes.presentation.navigation.NavigationRoutes
 import com.ausoft.quicknotes.presentation.theme.QuickNotesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,11 +27,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
+            val currentBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = currentBackStackEntry?.destination?.route
             QuickNotesTheme {
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
                     SmallTopAppBar(title = "Quick Notes")
+                }, bottomBar = {
+                    BottomBarMaterial3(
+                        currentRoute = currentRoute,
+                        onNavigateToAddNote = { navController.navigate(NavigationRoutes.AddNote) },
+                        onNavigateToNotes = { navController.navigate(NavigationRoutes.Notes) }
+                    )
                 }) { innerPadding ->
-                    AppNavigation(innerPadding)
+                    AppNavigation(navController, innerPadding)
                 }
             }
         }
