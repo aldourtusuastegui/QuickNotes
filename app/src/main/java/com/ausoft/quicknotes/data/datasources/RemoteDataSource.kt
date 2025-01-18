@@ -4,4 +4,5 @@ import com.ausoft.quicknotes.data.entities.NoteEntity
 
 interface RemoteDataSource {
     suspend fun addNote(note: NoteEntity)
+    suspend fun getNotes(): List<NoteEntity>
 }

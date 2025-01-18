@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun NoteItem(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     title: String, content: String
 ) {
 

@@ -8,7 +8,20 @@ import javax.inject.Inject
 class RemoteDataSourceImpl @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : RemoteDataSource {
+
     override suspend fun addNote(note: NoteEntity) {
         firestore.collection("notes").add(note).await()
+    }
+
+    override suspend fun getNotes(): List<NoteEntity> {
+        val snapshot = firestore.collection("notes")
+            .get()
+            .await()
+        return snapshot.documents.map { document ->
+            NoteEntity(
+                title = document.getString("title") ?: "",
+                content = document.getString("content") ?: ""
+            )
+        }
     }
 }
