@@ -2,6 +2,7 @@ package com.ausoft.quicknotes.data.repositories
 
 import com.ausoft.quicknotes.data.datasources.RemoteDataSource
 import com.ausoft.quicknotes.data.mappers.toNoteEntity
+import com.ausoft.quicknotes.data.mappers.toNoteModel
 import com.ausoft.quicknotes.domain.models.NoteModel
 import com.ausoft.quicknotes.domain.repositories.NoteRepository
 import javax.inject.Inject
@@ -12,6 +13,14 @@ class NoteRepositoryImpl @Inject constructor(
     override suspend fun addNote(note: NoteModel) : Result<Unit> {
         return runCatching {
             remoteDataSource.addNote(note.toNoteEntity())
+        }
+    }
+
+    override suspend fun getNotes(): Result<List<NoteModel>> {
+        return runCatching {
+            remoteDataSource.getNotes().map {
+                it.toNoteModel()
+            }
         }
     }
 }

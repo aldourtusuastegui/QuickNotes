@@ -1,6 +1,7 @@
 package com.ausoft.quicknotes.domain.models
 
 data class NoteModel(
-    val title: String,
-    val content: String,
+    val id: String? = null,
+    val title: String? = null,
+    val content: String? = null,
 )

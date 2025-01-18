@@ -5,6 +5,7 @@ import com.ausoft.quicknotes.domain.models.NoteModel
 
 fun NoteEntity.toNoteModel(): NoteModel {
     return NoteModel(
+        id = id,
         title = title,
         content = content
     )
@@ -12,6 +13,7 @@ fun NoteEntity.toNoteModel(): NoteModel {
 
 fun NoteModel.toNoteEntity(): NoteEntity {
     return NoteEntity(
+        id = id,
         title = title,
         content = content
     )

@@ -1,6 +1,7 @@
 package com.ausoft.quicknotes.data.entities
 
 data class NoteEntity(
-    val title: String,
-    val content: String,
+    val id: String? = null,
+    val title: String? = null,
+    val content: String? = null,
 )
