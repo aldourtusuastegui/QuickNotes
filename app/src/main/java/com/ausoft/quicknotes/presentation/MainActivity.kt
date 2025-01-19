@@ -18,7 +18,7 @@ import com.ausoft.quicknotes.R
 import com.ausoft.quicknotes.presentation.components.BottomBarMaterial3
 import com.ausoft.quicknotes.presentation.components.SmallTopAppBar
 import com.ausoft.quicknotes.presentation.navigation.AppNavigation
-import com.ausoft.quicknotes.presentation.navigation.NavigationRoutes
+import com.ausoft.quicknotes.presentation.navigation.Screen
 import com.ausoft.quicknotes.presentation.theme.QuickNotesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,15 +32,21 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val currentBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = currentBackStackEntry?.destination?.route
+            val isBottomNavigationVisible = currentRoute == Screen.AddNote.route || currentRoute == Screen.Notes.route
+
             QuickNotesTheme {
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-                    SmallTopAppBar(title = stringResource(R.string.app_name))
+                    SmallTopAppBar(title = stringResource(R.string.app_name), isBackVisible = !isBottomNavigationVisible) {
+                        navController.popBackStack()
+                    }
                 }, bottomBar = {
-                    BottomBarMaterial3(
-                        currentRoute = currentRoute,
-                        onNavigateToAddNote = { navController.navigate(NavigationRoutes.AddNote) },
-                        onNavigateToNotes = { navController.navigate(NavigationRoutes.Notes) }
-                    )
+                    if (isBottomNavigationVisible) {
+                        BottomBarMaterial3(
+                            currentRoute = currentRoute,
+                            onNavigateToAddNote = { navController.navigate(Screen.AddNote.route) },
+                            onNavigateToNotes = { navController.navigate(Screen.Notes.route) }
+                        )
+                    }
                 }) { innerPadding ->
                     AppNavigation(navController, innerPadding)
                 }

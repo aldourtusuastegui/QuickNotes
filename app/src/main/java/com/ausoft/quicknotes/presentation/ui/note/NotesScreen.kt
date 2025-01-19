@@ -12,13 +12,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ausoft.quicknotes.R
+import com.ausoft.quicknotes.domain.models.NoteModel
 import com.ausoft.quicknotes.presentation.components.NoteItem
 import com.ausoft.quicknotes.presentation.components.TitleText
 
 @Composable
 fun NotesScreen(
     modifier: Modifier,
-    notesViewModel: NotesViewModel = hiltViewModel()
+    notesViewModel: NotesViewModel = hiltViewModel(),
+    onNoteClick: (NoteModel) -> Unit
 ) {
 
     val uiState = notesViewModel.uiState.collectAsStateWithLifecycle().value
@@ -40,8 +42,10 @@ fun NotesScreen(
         ) {
             items(uiState.notes) { note ->
                 NoteItem(
+                    id = note.id.orEmpty(),
                     title = note.title.orEmpty(),
-                    content = note.content.orEmpty()
+                    content = note.content.orEmpty(),
+                    onNoteClick = onNoteClick
                 )
             }
         }

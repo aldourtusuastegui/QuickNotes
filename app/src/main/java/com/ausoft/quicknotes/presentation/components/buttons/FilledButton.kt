@@ -1,4 +1,4 @@
-package com.ausoft.quicknotes.presentation.components
+package com.ausoft.quicknotes.presentation.components.buttons
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
