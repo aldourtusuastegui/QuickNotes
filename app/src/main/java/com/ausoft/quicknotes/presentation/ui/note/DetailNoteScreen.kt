@@ -13,9 +13,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ausoft.quicknotes.R
 import com.ausoft.quicknotes.domain.models.NoteModel
-import com.ausoft.quicknotes.presentation.components.FilledButton
 import com.ausoft.quicknotes.presentation.components.InputTextField
 import com.ausoft.quicknotes.presentation.components.TitleText
+import com.ausoft.quicknotes.presentation.components.buttons.AlertButton
+import com.ausoft.quicknotes.presentation.components.buttons.DangerButton
 
 @Composable
 fun DetailNoteScreen(
@@ -57,7 +58,7 @@ fun DetailNoteScreen(
 
         }
 
-        FilledButton(
+        AlertButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp),
@@ -67,7 +68,7 @@ fun DetailNoteScreen(
 
         }
 
-        FilledButton(
+        DangerButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp),
