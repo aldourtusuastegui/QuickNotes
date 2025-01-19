@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ausoft.quicknotes.R
 import com.ausoft.quicknotes.domain.models.NoteModel
+import com.ausoft.quicknotes.presentation.components.LoadingIndicator
 import com.ausoft.quicknotes.presentation.components.NoteItem
 import com.ausoft.quicknotes.presentation.components.TitleText
 
@@ -30,33 +31,37 @@ fun NotesScreen(
 
     LaunchedEffect(removeNoteId) {
         restartNoteId()
-        notesViewModel.getNotes()
+        notesViewModel.removeNoteById(removeNoteId)
     }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        TitleText(
-            modifier = Modifier.padding(start = 16.dp),
-            title = stringResource(R.string.notes)
-        )
-
-        LazyColumn(
-            modifier = Modifier
+    if (uiState.isLoading) {
+        LoadingIndicator(modifier = Modifier.fillMaxSize())
+    } else {
+        Column(
+            modifier = modifier
                 .fillMaxSize()
-                .padding(top = 16.dp)
+                .padding(16.dp)
         ) {
-            items(uiState.notes) { note ->
-                NoteItem(
-                    id = note.id.orEmpty(),
-                    title = note.title.orEmpty(),
-                    content = note.content.orEmpty(),
-                    onNoteClick = onNoteClick
-                )
-            }
-        }
+            TitleText(
+                modifier = Modifier.padding(start = 16.dp),
+                title = stringResource(R.string.notes)
+            )
 
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 16.dp)
+            ) {
+                items(uiState.notes) { note ->
+                    NoteItem(
+                        id = note.id.orEmpty(),
+                        title = note.title.orEmpty(),
+                        content = note.content.orEmpty(),
+                        onNoteClick = onNoteClick
+                    )
+                }
+            }
+
+        }
     }
 }
