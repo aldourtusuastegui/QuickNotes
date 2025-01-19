@@ -24,7 +24,7 @@ class NotesViewModel @Inject constructor(
         getNotes()
     }
 
-    private fun getNotes() {
+    fun getNotes() {
         viewModelScope.launch {
             getNotesUseCase().onSuccess { notes ->
                 _uiState.update {

@@ -26,10 +26,16 @@ fun DetailNoteScreen(
     noteModel: NoteModel,
     onBackClick: () -> Unit,
 ) {
-    val uiState = detailNoteViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState = detailNoteViewModel.uiState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(noteModel) {
        detailNoteViewModel.setNoteDetails(noteModel)
+    }
+
+    LaunchedEffect(uiState.wasSuccessfullyDeleted) {
+        if (uiState.wasSuccessfullyDeleted) {
+            onBackClick()
+        }
     }
 
     BackHandler {
@@ -48,7 +54,7 @@ fun DetailNoteScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            text = uiState.value.noteModel.title.orEmpty(),
+            text = uiState.noteModel.title.orEmpty(),
             enabled = false
         ) {
 
@@ -58,7 +64,7 @@ fun DetailNoteScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            text = uiState.value.noteModel.content.orEmpty(),
+            text = uiState.noteModel.content.orEmpty(),
             enabled = false
         ) {
 
@@ -81,7 +87,7 @@ fun DetailNoteScreen(
             title = stringResource(R.string.delete_note),
             isEnabled = true
         ) {
-
+            detailNoteViewModel.deleteNote()
         }
     }
 }

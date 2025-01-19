@@ -1,5 +1,6 @@
 package com.ausoft.quicknotes.data.repositories
 
+import android.util.Log
 import com.ausoft.quicknotes.data.datasources.RemoteDataSource
 import com.ausoft.quicknotes.data.mappers.toNoteEntity
 import com.ausoft.quicknotes.data.mappers.toNoteModel
@@ -21,6 +22,14 @@ class NoteRepositoryImpl @Inject constructor(
             remoteDataSource.getNotes().map {
                 it.toNoteModel()
             }
+        }
+    }
+
+    override suspend fun deleteNote(note: NoteModel): Result<Unit> {
+        return runCatching {
+            remoteDataSource.deleteNote(note.toNoteEntity())
+        }.onFailure { throwable ->
+            Log.e("epale", "Error deleting note: ${throwable.message}")
         }
     }
 }

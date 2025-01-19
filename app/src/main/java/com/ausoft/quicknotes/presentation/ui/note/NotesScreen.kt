@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -20,10 +21,17 @@ import com.ausoft.quicknotes.presentation.components.TitleText
 fun NotesScreen(
     modifier: Modifier,
     notesViewModel: NotesViewModel = hiltViewModel(),
+    removeNoteId: String,
+    restartNoteId: () -> Unit,
     onNoteClick: (NoteModel) -> Unit
 ) {
 
     val uiState = notesViewModel.uiState.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(removeNoteId) {
+        restartNoteId()
+        notesViewModel.getNotes()
+    }
 
     Column(
         modifier = modifier
