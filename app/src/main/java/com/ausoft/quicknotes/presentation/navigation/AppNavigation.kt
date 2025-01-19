@@ -42,7 +42,9 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
                 title = title,
                 content = content
             )
-            DetailNoteScreen(modifier = Modifier.padding(innerPadding), noteModel = noteModel)
+            DetailNoteScreen(modifier = Modifier.padding(innerPadding), noteModel = noteModel) {
+                navController.popBackStack()
+            }
         }
     }
 }

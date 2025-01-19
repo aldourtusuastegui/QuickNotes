@@ -1,5 +1,6 @@
 package com.ausoft.quicknotes.presentation.ui.note
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,13 +22,18 @@ import com.ausoft.quicknotes.presentation.components.buttons.DangerButton
 @Composable
 fun DetailNoteScreen(
     modifier: Modifier,
+    detailNoteViewModel: DetailNoteViewModel = hiltViewModel(),
     noteModel: NoteModel,
-    detailNoteViewModel: DetailNoteViewModel = hiltViewModel()
+    onBackClick: () -> Unit,
 ) {
     val uiState = detailNoteViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(noteModel) {
        detailNoteViewModel.setNoteDetails(noteModel)
+    }
+
+    BackHandler {
+        onBackClick()
     }
 
     Column(modifier = modifier

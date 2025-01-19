@@ -32,11 +32,15 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val currentBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = currentBackStackEntry?.destination?.route
+            val isBottomNavigationVisible = currentRoute == Screen.AddNote.route || currentRoute == Screen.Notes.route
+
             QuickNotesTheme {
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-                    SmallTopAppBar(title = stringResource(R.string.app_name))
+                    SmallTopAppBar(title = stringResource(R.string.app_name), isBackVisible = !isBottomNavigationVisible) {
+                        navController.popBackStack()
+                    }
                 }, bottomBar = {
-                    if (currentRoute == Screen.AddNote.route || currentRoute == Screen.Notes.route) {
+                    if (isBottomNavigationVisible) {
                         BottomBarMaterial3(
                             currentRoute = currentRoute,
                             onNavigateToAddNote = { navController.navigate(Screen.AddNote.route) },

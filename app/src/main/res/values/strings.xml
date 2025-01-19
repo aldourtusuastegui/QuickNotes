@@ -7,4 +7,5 @@
     <string name="detail_note">Detail Note</string>
     <string name="edit_note">Edit Note</string>
     <string name="delete_note">Delete Note</string>
+    <string name="back">back</string>
 </resources>
