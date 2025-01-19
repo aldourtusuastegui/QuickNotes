@@ -5,9 +5,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ausoft.quicknotes.R
 import com.ausoft.quicknotes.domain.models.NoteModel
 import com.ausoft.quicknotes.presentation.components.FilledButton
@@ -15,7 +18,17 @@ import com.ausoft.quicknotes.presentation.components.InputTextField
 import com.ausoft.quicknotes.presentation.components.TitleText
 
 @Composable
-fun DetailNoteScreen(modifier: Modifier, noteModel: NoteModel) {
+fun DetailNoteScreen(
+    modifier: Modifier,
+    noteModel: NoteModel,
+    detailNoteViewModel: DetailNoteViewModel = hiltViewModel()
+) {
+    val uiState = detailNoteViewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(noteModel) {
+       detailNoteViewModel.setNoteDetails(noteModel)
+    }
+
     Column(modifier = modifier
         .fillMaxSize()
         .padding(16.dp)) {
@@ -28,7 +41,7 @@ fun DetailNoteScreen(modifier: Modifier, noteModel: NoteModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            text = noteModel.title.orEmpty(),
+            text = uiState.value.noteModel.title.orEmpty(),
             enabled = false
         ) {
 
@@ -38,7 +51,7 @@ fun DetailNoteScreen(modifier: Modifier, noteModel: NoteModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            text = noteModel.content.orEmpty(),
+            text = uiState.value.noteModel.content.orEmpty(),
             enabled = false
         ) {
 
