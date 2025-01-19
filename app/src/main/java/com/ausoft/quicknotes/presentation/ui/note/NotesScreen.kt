@@ -18,7 +18,8 @@ import com.ausoft.quicknotes.presentation.components.TitleText
 @Composable
 fun NotesScreen(
     modifier: Modifier,
-    notesViewModel: NotesViewModel = hiltViewModel()
+    notesViewModel: NotesViewModel = hiltViewModel(),
+    onNoteClick: () -> Unit
 ) {
 
     val uiState = notesViewModel.uiState.collectAsStateWithLifecycle().value
@@ -41,7 +42,8 @@ fun NotesScreen(
             items(uiState.notes) { note ->
                 NoteItem(
                     title = note.title.orEmpty(),
-                    content = note.content.orEmpty()
+                    content = note.content.orEmpty(),
+                    onNoteClick = onNoteClick
                 )
             }
         }

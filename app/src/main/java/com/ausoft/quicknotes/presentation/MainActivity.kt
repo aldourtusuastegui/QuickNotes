@@ -36,11 +36,13 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
                     SmallTopAppBar(title = stringResource(R.string.app_name))
                 }, bottomBar = {
-                    BottomBarMaterial3(
-                        currentRoute = currentRoute,
-                        onNavigateToAddNote = { navController.navigate(NavigationRoutes.AddNote) },
-                        onNavigateToNotes = { navController.navigate(NavigationRoutes.Notes) }
-                    )
+                    if (currentRoute == NavigationRoutes.ADD_NOTE || currentRoute == NavigationRoutes.NOTES) {
+                        BottomBarMaterial3(
+                            currentRoute = currentRoute,
+                            onNavigateToAddNote = { navController.navigate(NavigationRoutes.ADD_NOTE) },
+                            onNavigateToNotes = { navController.navigate(NavigationRoutes.NOTES) }
+                        )
+                    }
                 }) { innerPadding ->
                     AppNavigation(navController, innerPadding)
                 }

@@ -25,7 +25,7 @@ fun BottomBarMaterial3(
         NavigationBarItem(
             icon = { Icon(Icons.Default.Home, contentDescription = stringResource(R.string.add_note)) },
             label = { Text(stringResource(R.string.add_note)) },
-            selected = currentRoute == NavigationRoutes.AddNote,
+            selected = currentRoute == NavigationRoutes.ADD_NOTE,
             onClick = onNavigateToAddNote,
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.onPrimary,
@@ -35,7 +35,7 @@ fun BottomBarMaterial3(
         NavigationBarItem(
             icon = { Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.notes)) },
             label = { Text(stringResource(R.string.notes)) },
-            selected = currentRoute == NavigationRoutes.Notes,
+            selected = currentRoute == NavigationRoutes.NOTES,
             onClick = onNavigateToNotes,
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.onPrimary,

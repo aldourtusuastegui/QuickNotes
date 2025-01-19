@@ -23,15 +23,15 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun NoteItem(
     modifier: Modifier = Modifier,
-    title: String, content: String
+    title: String, content: String,
+    onNoteClick: () -> Unit
 ) {
-
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-
+                onNoteClick()
             },
         colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF59D)),
         elevation = CardDefaults.cardElevation(4.dp)
@@ -63,6 +63,11 @@ fun NoteItemPreview() {
             .fillMaxSize()
             .padding(top = 70.dp)
     ) {
-        NoteItem(modifier = Modifier, title = "SuperMarket", content = "Get milk and eggs for breakfast")
+        NoteItem(
+            modifier = Modifier,
+            title = "SuperMarket",
+            content = "Get milk and eggs for breakfast") {
+
+        }
     }
 }

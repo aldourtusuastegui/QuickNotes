@@ -4,4 +4,7 @@
     <string name="content">Content</string>
     <string name="add_note">Add Note</string>
     <string name="notes">Notes</string>
+    <string name="detail_note">Detail Note</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="delete_note">Delete Note</string>
 </resources>
