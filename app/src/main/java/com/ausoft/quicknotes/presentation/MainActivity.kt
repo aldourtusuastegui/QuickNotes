@@ -18,7 +18,7 @@ import com.ausoft.quicknotes.R
 import com.ausoft.quicknotes.presentation.components.BottomBarMaterial3
 import com.ausoft.quicknotes.presentation.components.SmallTopAppBar
 import com.ausoft.quicknotes.presentation.navigation.AppNavigation
-import com.ausoft.quicknotes.presentation.navigation.NavigationRoutes
+import com.ausoft.quicknotes.presentation.navigation.Screen
 import com.ausoft.quicknotes.presentation.theme.QuickNotesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,11 +36,11 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
                     SmallTopAppBar(title = stringResource(R.string.app_name))
                 }, bottomBar = {
-                    if (currentRoute == NavigationRoutes.ADD_NOTE || currentRoute == NavigationRoutes.NOTES) {
+                    if (currentRoute == Screen.AddNote.route || currentRoute == Screen.Notes.route) {
                         BottomBarMaterial3(
                             currentRoute = currentRoute,
-                            onNavigateToAddNote = { navController.navigate(NavigationRoutes.ADD_NOTE) },
-                            onNavigateToNotes = { navController.navigate(NavigationRoutes.NOTES) }
+                            onNavigateToAddNote = { navController.navigate(Screen.AddNote.route) },
+                            onNavigateToNotes = { navController.navigate(Screen.Notes.route) }
                         )
                     }
                 }) { innerPadding ->

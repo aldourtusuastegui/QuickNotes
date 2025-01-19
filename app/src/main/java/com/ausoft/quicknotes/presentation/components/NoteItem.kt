@@ -19,19 +19,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ausoft.quicknotes.domain.models.NoteModel
 
 @Composable
 fun NoteItem(
     modifier: Modifier = Modifier,
-    title: String, content: String,
-    onNoteClick: () -> Unit
+    id: String,
+    title: String,
+    content: String,
+    onNoteClick: (NoteModel) -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-                onNoteClick()
+                onNoteClick(
+                    NoteModel(
+                        id = id,
+                        title = title,
+                        content = content
+                    )
+                )
             },
         colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF59D)),
         elevation = CardDefaults.cardElevation(4.dp)
@@ -65,6 +74,7 @@ fun NoteItemPreview() {
     ) {
         NoteItem(
             modifier = Modifier,
+            id = "1213",
             title = "SuperMarket",
             content = "Get milk and eggs for breakfast") {
 
