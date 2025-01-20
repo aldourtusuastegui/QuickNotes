@@ -1,6 +1,5 @@
 package com.ausoft.quicknotes.presentation.ui.note
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ausoft.quicknotes.domain.models.NoteModel
@@ -33,12 +32,10 @@ class DetailNoteViewModel @Inject constructor(
         viewModelScope.launch(dispatcher) {
             deleteNoteUseCase(_uiState.value.noteModel).onSuccess {
                 _uiState.update {
-                    Log.d("epale","success")
                     it.copy(wasSuccessfullyDeleted = true)
                 }
             }.onFailure {
                 _uiState.update {
-                    Log.d("epale","failure")
                     it.copy(wasSuccessfullyDeleted = false)
                 }
             }

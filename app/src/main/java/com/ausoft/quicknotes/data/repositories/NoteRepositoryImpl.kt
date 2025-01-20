@@ -29,7 +29,7 @@ class NoteRepositoryImpl @Inject constructor(
         return runCatching {
             remoteDataSource.deleteNote(note.toNoteEntity())
         }.onFailure { throwable ->
-            Log.e("epale", "Error deleting note: ${throwable.message}")
+            Log.e("TAG", "Error deleting note: ${throwable.message}")
         }
     }
 }

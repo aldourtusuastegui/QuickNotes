@@ -50,16 +50,18 @@ class NotesViewModel @Inject constructor(
     }
 
     fun removeNoteById(noteId: String) {
-        _uiState.update {
-            it.copy(isLoading = true)
-        }
-        val notes = _uiState.value.notes.toMutableList()
-        notes.removeIf { it.id == noteId }
-        _uiState.update {
-            it.copy(
-                isLoading = false,
-                notes = notes
-            )
+        if (noteId.isNotEmpty()) {
+            _uiState.update {
+                it.copy(isLoading = true)
+            }
+            val notes = _uiState.value.notes.toMutableList()
+            notes.removeIf { it.id == noteId }
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    notes = notes
+                )
+            }
         }
     }
 }
