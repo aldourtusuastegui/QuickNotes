@@ -26,4 +26,10 @@ class RemoteDataSourceImpl @Inject constructor(
             )
         }
     }
+
+    override suspend fun deleteNote(note: NoteEntity) {
+        note.id?.let {
+            firestore.collection("notes").document(it).delete().await()
+        }
+    }
 }

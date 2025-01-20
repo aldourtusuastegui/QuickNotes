@@ -3,7 +3,9 @@ package com.ausoft.quicknotes.presentation.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -20,8 +22,17 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
         composable(Screen.AddNote.route) {
             AddNoteScreen(modifier = Modifier.padding(innerPadding))
         }
-        composable(Screen.Notes.route) {
-            NotesScreen(modifier = Modifier.padding(innerPadding)) { note ->
+        composable(Screen.Notes.route) { backStackEntry ->
+            val noteDeletedFlow = backStackEntry.savedStateHandle.getStateFlow("noteId", "")
+            val deletedNoteId by noteDeletedFlow.collectAsStateWithLifecycle()
+
+            NotesScreen(
+                modifier = Modifier.padding(innerPadding),
+                removeNoteId = deletedNoteId,
+                restartNoteId = {
+                    backStackEntry.savedStateHandle["noteId"] = ""
+                }
+            ) { note ->
                 navController.navigate(Screen.DetailNote.createRoute(note))
             }
         }
@@ -43,6 +54,7 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
                 content = content
             )
             DetailNoteScreen(modifier = Modifier.padding(innerPadding), noteModel = noteModel) {
+                navController.previousBackStackEntry?.savedStateHandle?.set("noteId", noteModel.id)
                 navController.popBackStack()
             }
         }

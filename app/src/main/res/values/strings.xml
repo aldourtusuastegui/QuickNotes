@@ -8,4 +8,5 @@
     <string name="edit_note">Edit Note</string>
     <string name="delete_note">Delete Note</string>
     <string name="back">back</string>
+    <string name="no_notes">No notes available</string>
 </resources>

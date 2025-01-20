@@ -25,20 +25,48 @@ class NotesViewModel @Inject constructor(
     }
 
     private fun getNotes() {
+        _uiState.update {
+            it.copy(
+                isLoading = true
+            )
+        }
         viewModelScope.launch {
             getNotesUseCase().onSuccess { notes ->
                 _uiState.update {
-                    it.copy(notes = notes)
+                    it.copy(
+                        isLoading = false,
+                        notes = notes
+                    )
                 }
             }
             .onFailure {
-
+                _uiState.update {
+                    it.copy(
+                        isLoading = false
+                    )
+                }
             }
         }
     }
 
+    fun removeNoteById(noteId: String) {
+        if (noteId.isNotEmpty()) {
+            _uiState.update {
+                it.copy(isLoading = true)
+            }
+            val notes = _uiState.value.notes.toMutableList()
+            notes.removeIf { it.id == noteId }
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    notes = notes
+                )
+            }
+        }
+    }
 }
 
 data class NotesUiState(
+    val isLoading: Boolean = false,
     val notes: List<NoteModel> = emptyList()
 )
