@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun AlertButton(
-    modifier: Modifier,
+fun PrimaryButton(
+    modifier: Modifier = Modifier,
     title: String,
     isEnabled: Boolean = true,
     onClick: () -> Unit
@@ -17,11 +17,11 @@ fun AlertButton(
     Button(
         modifier = modifier,
         enabled = isEnabled,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFFFFC107),
-            contentColor = Color.White
-        ),
         onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+        containerColor = Color.Black,
+        contentColor = Color.White
+    ),
     ) {
         Text(text = title)
     }
