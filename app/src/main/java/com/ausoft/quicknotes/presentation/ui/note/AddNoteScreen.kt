@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ausoft.quicknotes.R
-import com.ausoft.quicknotes.presentation.components.buttons.FilledButton
+import com.ausoft.quicknotes.presentation.components.buttons.PrimaryButton
 import com.ausoft.quicknotes.presentation.components.InputTextField
 import com.ausoft.quicknotes.presentation.components.TitleText
 
@@ -57,7 +57,7 @@ fun AddNoteScreen(
             viewModel.validateForm()
         }
 
-        FilledButton(
+        PrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp),
