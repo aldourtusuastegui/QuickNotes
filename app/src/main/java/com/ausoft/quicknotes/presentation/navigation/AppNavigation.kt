@@ -14,6 +14,7 @@ import androidx.navigation.navArgument
 import com.ausoft.quicknotes.domain.models.NoteModel
 import com.ausoft.quicknotes.presentation.ui.note.AddNoteScreen
 import com.ausoft.quicknotes.presentation.ui.note.DetailNoteScreen
+import com.ausoft.quicknotes.presentation.ui.note.EditNoteScreen
 import com.ausoft.quicknotes.presentation.ui.note.NotesScreen
 
 @Composable
@@ -53,10 +54,50 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
                 title = title,
                 content = content
             )
-            DetailNoteScreen(modifier = Modifier.padding(innerPadding), noteModel = noteModel) {
-                navController.previousBackStackEntry?.savedStateHandle?.set("noteId", noteModel.id)
-                navController.popBackStack()
-            }
+
+            val noteEditFlow = backStackEntry.savedStateHandle.getStateFlow("noteId", "")
+            val editNoteId by noteEditFlow.collectAsStateWithLifecycle()
+
+            DetailNoteScreen(
+                modifier = Modifier.padding(innerPadding),
+                noteModel = noteModel,
+                onEdit = {
+                    navController.navigate(Screen.EditNote.createRoute(noteModel))
+                },
+                onBack = {
+                    navController.previousBackStackEntry?.savedStateHandle?.set("noteId", noteModel.id)
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable(
+            route = "edit_note/{noteId}/{title}/{content}",
+            arguments = listOf(
+                navArgument("noteId") { type = NavType.StringType },
+                navArgument("title") { type = NavType.StringType },
+                navArgument("content") { type = NavType.StringType }
+            )
+        ) {
+            val noteId = it.arguments?.getString("noteId")
+            val title = it.arguments?.getString("title")
+            val content = it.arguments?.getString("content")
+            val noteModel = NoteModel(
+                id = noteId,
+                title = title,
+                content = content
+            )
+            EditNoteScreen(
+                modifier = Modifier.padding(innerPadding),
+                noteModel = noteModel,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onEdit = {
+                    navController.previousBackStackEntry?.savedStateHandle?.set("noteId", noteModel.id)
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

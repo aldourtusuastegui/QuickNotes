@@ -1,5 +1,6 @@
 package com.ausoft.quicknotes.data.datasources
 
+import android.util.Log
 import com.ausoft.quicknotes.data.entities.NoteEntity
 import com.ausoft.quicknotes.data.mappers.toMap
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,4 +33,12 @@ class RemoteDataSourceImpl @Inject constructor(
             firestore.collection("notes").document(it).delete().await()
         }
     }
+
+    override suspend fun editNote(note: NoteEntity) {
+        note.id?.let {
+            Log.d("epale", "id: $it")
+            firestore.collection("notes").document(it).set(note.toMap()).await()
+        }
+    }
+
 }

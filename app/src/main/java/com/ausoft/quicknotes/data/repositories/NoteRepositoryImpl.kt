@@ -32,4 +32,12 @@ class NoteRepositoryImpl @Inject constructor(
             Log.e("TAG", "Error deleting note: ${throwable.message}")
         }
     }
+
+    override suspend fun editNote(note: NoteModel): Result<Unit> {
+        return runCatching {
+            remoteDataSource.editNote(note.toNoteEntity())
+        }.onFailure { throwable ->
+            Log.e("TAG", "Error editing note: ${throwable.message}")
+        }
+    }
 }

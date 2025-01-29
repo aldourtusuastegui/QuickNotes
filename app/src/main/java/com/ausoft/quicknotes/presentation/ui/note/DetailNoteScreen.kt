@@ -1,6 +1,7 @@
 package com.ausoft.quicknotes.presentation.ui.note
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +13,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -33,11 +33,11 @@ fun DetailNoteScreen(
     modifier: Modifier,
     detailNoteViewModel: DetailNoteViewModel = hiltViewModel(),
     noteModel: NoteModel,
-    onBackClick: () -> Unit,
+    onEdit: () -> Unit,
+    onBack: () -> Unit,
 ) {
     val uiState = detailNoteViewModel.uiState.collectAsStateWithLifecycle().value
     val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(noteModel) {
@@ -46,12 +46,12 @@ fun DetailNoteScreen(
 
     LaunchedEffect(uiState.wasSuccessfullyDeleted) {
         if (uiState.wasSuccessfullyDeleted) {
-            onBackClick()
+            onBack()
         }
     }
 
     BackHandler {
-        onBackClick()
+        onBack()
     }
 
     Column(modifier = modifier
@@ -69,7 +69,6 @@ fun DetailNoteScreen(
             text = uiState.noteModel.title.orEmpty(),
             enabled = false
         ) {
-
         }
 
         InputTextField(
@@ -89,7 +88,7 @@ fun DetailNoteScreen(
             title = stringResource(R.string.edit_note).uppercase(),
             isEnabled = true
         ) {
-
+            onEdit()
         }
 
         PrimaryButton(
