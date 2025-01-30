@@ -28,22 +28,19 @@ fun NotesScreen(
     modifier: Modifier,
     notesViewModel: NotesViewModel = hiltViewModel(),
     removeNoteId: String,
-    noteEdited: Boolean = false,
     restartNoteId: () -> Unit,
     onNoteClick: (NoteModel) -> Unit
 ) {
 
     val uiState = notesViewModel.uiState.collectAsStateWithLifecycle().value
 
+    LaunchedEffect(Unit) {
+        notesViewModel.getNotes()
+    }
+
     LaunchedEffect(removeNoteId) {
         restartNoteId()
         notesViewModel.removeNoteById(removeNoteId)
-    }
-
-    LaunchedEffect(noteEdited) {
-        if (noteEdited) {
-            notesViewModel.getNotes()
-        }
     }
 
     if (uiState.isLoading) {

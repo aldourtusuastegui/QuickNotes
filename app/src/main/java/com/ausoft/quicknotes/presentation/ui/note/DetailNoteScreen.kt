@@ -1,5 +1,6 @@
 package com.ausoft.quicknotes.presentation.ui.note
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,7 @@ fun DetailNoteScreen(
     detailNoteViewModel: DetailNoteViewModel = hiltViewModel(),
     noteModel: NoteModel,
     onEdit: () -> Unit,
+    onDelete: () -> Unit,
     onBack: () -> Unit,
 ) {
     val uiState = detailNoteViewModel.uiState.collectAsStateWithLifecycle().value
@@ -45,11 +47,12 @@ fun DetailNoteScreen(
 
     LaunchedEffect(uiState.wasSuccessfullyDeleted) {
         if (uiState.wasSuccessfullyDeleted) {
-            onBack()
+            onDelete()
         }
     }
 
     BackHandler {
+        Log.d("epale","is back pressed")
         onBack()
     }
 

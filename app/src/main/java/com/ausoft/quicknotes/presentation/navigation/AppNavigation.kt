@@ -1,7 +1,6 @@
 package com.ausoft.quicknotes.presentation.navigation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -18,40 +17,52 @@ import com.ausoft.quicknotes.presentation.ui.note.AddNoteScreen
 import com.ausoft.quicknotes.presentation.ui.note.DetailNoteScreen
 import com.ausoft.quicknotes.presentation.ui.note.EditNoteScreen
 import com.ausoft.quicknotes.presentation.ui.note.NotesScreen
+import com.ausoft.quicknotes.presentation.utils.Constants.EDITED_NOTE_CONTENT
+import com.ausoft.quicknotes.presentation.utils.Constants.EDITED_NOTE_ID
+import com.ausoft.quicknotes.presentation.utils.Constants.EDITED_NOTE_TITLE
+import com.ausoft.quicknotes.presentation.utils.Constants.EMPTY_STRING
+import com.ausoft.quicknotes.presentation.utils.Constants.NOTE_CONTENT
+import com.ausoft.quicknotes.presentation.utils.Constants.NOTE_DATA
+import com.ausoft.quicknotes.presentation.utils.Constants.NOTE_ID
+import com.ausoft.quicknotes.presentation.utils.Constants.NOTE_TITLE
 
 @Composable
 fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues) {
     NavHost(navController = navController, startDestination = Screen.AddNote.route) {
+
+        //AddNoteScreen
         composable(Screen.AddNote.route) {
             AddNoteScreen(modifier = Modifier.padding(innerPadding))
         }
+
+        //List Of Notes
         composable(Screen.Notes.route) { backStackEntry ->
-            val noteDeletedFlow = backStackEntry.savedStateHandle.getStateFlow("noteId", "")
+            val noteDeletedFlow = backStackEntry.savedStateHandle.getStateFlow(NOTE_ID, EMPTY_STRING)
             val deletedNoteId by noteDeletedFlow.collectAsStateWithLifecycle()
 
             NotesScreen(
                 modifier = Modifier.padding(innerPadding),
                 removeNoteId = deletedNoteId,
-                noteEdited = false,
                 restartNoteId = {
-                    backStackEntry.savedStateHandle["noteId"] = ""
+                    backStackEntry.savedStateHandle[NOTE_ID] = EMPTY_STRING
                 }
             ) { note ->
                 navController.navigate(Screen.DetailNote.createRoute(note))
             }
         }
 
+        //Detail Of Notes
         composable(
-            route = "detail_note/{noteId}/{title}/{content}",
+            route = "detail_note/{noteId}/{noteTitle}/{noteContent}",
             arguments = listOf(
-                navArgument("noteId") { type = NavType.StringType },
-                navArgument("title") { type = NavType.StringType },
-                navArgument("content") { type = NavType.StringType }
+                navArgument(NOTE_ID) { type = NavType.StringType },
+                navArgument(NOTE_TITLE) { type = NavType.StringType },
+                navArgument(NOTE_CONTENT) { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val noteId = backStackEntry.arguments?.getString("noteId")
-            val title = backStackEntry.arguments?.getString("title")
-            val content = backStackEntry.arguments?.getString("content")
+            val noteId = backStackEntry.arguments?.getString(NOTE_ID)
+            val title = backStackEntry.arguments?.getString(NOTE_TITLE)
+            val content = backStackEntry.arguments?.getString(NOTE_CONTENT)
             var noteModel = NoteModel(
                 id = noteId,
                 title = title,
@@ -60,12 +71,12 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
 
             val editNoteResult = navController.currentBackStackEntry
                 ?.savedStateHandle
-                ?.getStateFlow<Bundle?>("noteData", null)
+                ?.getStateFlow<Bundle?>(NOTE_DATA, null)
                 ?.collectAsStateWithLifecycle()
 
-            val editedNoteId = editNoteResult?.value?.getString("noteId")
-            val editedNoteTitle = editNoteResult?.value?.getString("noteTitle")
-            val editedNoteContent = editNoteResult?.value?.getString("noteContent")
+            val editedNoteId = editNoteResult?.value?.getString(EDITED_NOTE_ID)
+            val editedNoteTitle = editNoteResult?.value?.getString(EDITED_NOTE_TITLE)
+            val editedNoteContent = editNoteResult?.value?.getString(EDITED_NOTE_CONTENT)
 
             if (editedNoteId != null && editedNoteTitle != null && editedNoteContent != null) {
                 noteModel = NoteModel(
@@ -81,27 +92,28 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
                 onEdit = {
                     navController.navigate(Screen.EditNote.createRoute(noteModel))
                 },
+                onDelete = {
+                    navController.previousBackStackEntry?.savedStateHandle?.set(NOTE_ID, noteModel.id)
+                    navController.popBackStack()
+                },
                 onBack = {
-                    navController.previousBackStackEntry?.savedStateHandle?.set("noteId", noteModel.id)
-                    if (editedNoteId != null) {
-                        navController.previousBackStackEntry?.savedStateHandle?.set("noteEdited", true)
-                    }
                     navController.popBackStack()
                 }
             )
         }
 
+        //Edit Note
         composable(
-            route = "edit_note/{noteId}/{title}/{content}",
+            route = "edit_note/{noteId}/{noteTitle}/{noteContent}",
             arguments = listOf(
-                navArgument("noteId") { type = NavType.StringType },
-                navArgument("title") { type = NavType.StringType },
-                navArgument("content") { type = NavType.StringType }
+                navArgument(NOTE_ID) { type = NavType.StringType },
+                navArgument(NOTE_TITLE) { type = NavType.StringType },
+                navArgument(NOTE_CONTENT) { type = NavType.StringType }
             )
         ) {
-            val noteId = it.arguments?.getString("noteId")
-            val title = it.arguments?.getString("title")
-            val content = it.arguments?.getString("content")
+            val noteId = it.arguments?.getString(NOTE_ID)
+            val title = it.arguments?.getString(NOTE_TITLE)
+            val content = it.arguments?.getString(NOTE_CONTENT)
             val noteModel = NoteModel(
                 id = noteId,
                 title = title,
@@ -115,11 +127,11 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
                 },
                 onEdit = { note ->
                     val bundle = Bundle().apply {
-                        putString("noteId", note.id)
-                        putString("noteTitle", note.title)
-                        putString("noteContent", note.content)
+                        putString(EDITED_NOTE_ID, note.id)
+                        putString(EDITED_NOTE_TITLE, note.title)
+                        putString(EDITED_NOTE_CONTENT, note.content)
                     }
-                    navController.previousBackStackEntry?.savedStateHandle?.set("noteData", bundle)
+                    navController.previousBackStackEntry?.savedStateHandle?.set(NOTE_DATA, bundle)
                     navController.popBackStack()
                 }
             )
