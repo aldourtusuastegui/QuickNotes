@@ -34,6 +34,10 @@ fun NotesScreen(
 
     val uiState = notesViewModel.uiState.collectAsStateWithLifecycle().value
 
+    LaunchedEffect(Unit) {
+        notesViewModel.getNotes()
+    }
+
     LaunchedEffect(removeNoteId) {
         restartNoteId()
         notesViewModel.removeNoteById(removeNoteId)

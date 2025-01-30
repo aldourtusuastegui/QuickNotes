@@ -20,11 +20,7 @@ class NotesViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(NotesUiState())
     val uiState: StateFlow<NotesUiState> = _uiState.asStateFlow()
 
-    init {
-        getNotes()
-    }
-
-    private fun getNotes() {
+    fun getNotes() {
         _uiState.update {
             it.copy(
                 isLoading = true

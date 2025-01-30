@@ -6,4 +6,5 @@ interface RemoteDataSource {
     suspend fun addNote(note: NoteEntity)
     suspend fun getNotes(): List<NoteEntity>
     suspend fun deleteNote(note: NoteEntity)
+    suspend fun editNote(note: NoteEntity)
 }
