@@ -36,7 +36,6 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun editNote(note: NoteEntity) {
         note.id?.let {
-            Log.d("epale", "id: $it")
             firestore.collection("notes").document(it).set(note.toMap()).await()
         }
     }

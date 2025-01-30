@@ -1,5 +1,7 @@
 package com.ausoft.quicknotes.presentation.navigation
 
+import android.os.Bundle
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -30,6 +32,7 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
             NotesScreen(
                 modifier = Modifier.padding(innerPadding),
                 removeNoteId = deletedNoteId,
+                noteEdited = false,
                 restartNoteId = {
                     backStackEntry.savedStateHandle["noteId"] = ""
                 }
@@ -49,14 +52,28 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
             val noteId = backStackEntry.arguments?.getString("noteId")
             val title = backStackEntry.arguments?.getString("title")
             val content = backStackEntry.arguments?.getString("content")
-            val noteModel = NoteModel(
+            var noteModel = NoteModel(
                 id = noteId,
                 title = title,
                 content = content
             )
 
-            val noteEditFlow = backStackEntry.savedStateHandle.getStateFlow("noteId", "")
-            val editNoteId by noteEditFlow.collectAsStateWithLifecycle()
+            val editNoteResult = navController.currentBackStackEntry
+                ?.savedStateHandle
+                ?.getStateFlow<Bundle?>("noteData", null)
+                ?.collectAsStateWithLifecycle()
+
+            val editedNoteId = editNoteResult?.value?.getString("noteId")
+            val editedNoteTitle = editNoteResult?.value?.getString("noteTitle")
+            val editedNoteContent = editNoteResult?.value?.getString("noteContent")
+
+            if (editedNoteId != null && editedNoteTitle != null && editedNoteContent != null) {
+                noteModel = NoteModel(
+                    id = editedNoteId,
+                    title = editedNoteTitle,
+                    content = editedNoteContent
+                )
+            }
 
             DetailNoteScreen(
                 modifier = Modifier.padding(innerPadding),
@@ -66,6 +83,9 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
                 },
                 onBack = {
                     navController.previousBackStackEntry?.savedStateHandle?.set("noteId", noteModel.id)
+                    if (editedNoteId != null) {
+                        navController.previousBackStackEntry?.savedStateHandle?.set("noteEdited", true)
+                    }
                     navController.popBackStack()
                 }
             )
@@ -93,8 +113,13 @@ fun AppNavigation(navController: NavHostController, innerPadding: PaddingValues)
                 onBack = {
                     navController.popBackStack()
                 },
-                onEdit = {
-                    navController.previousBackStackEntry?.savedStateHandle?.set("noteId", noteModel.id)
+                onEdit = { note ->
+                    val bundle = Bundle().apply {
+                        putString("noteId", note.id)
+                        putString("noteTitle", note.title)
+                        putString("noteContent", note.content)
+                    }
+                    navController.previousBackStackEntry?.savedStateHandle?.set("noteData", bundle)
                     navController.popBackStack()
                 }
             )

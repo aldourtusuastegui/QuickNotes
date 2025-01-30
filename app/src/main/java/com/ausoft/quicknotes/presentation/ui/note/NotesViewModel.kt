@@ -24,7 +24,7 @@ class NotesViewModel @Inject constructor(
         getNotes()
     }
 
-    private fun getNotes() {
+    fun getNotes() {
         _uiState.update {
             it.copy(
                 isLoading = true

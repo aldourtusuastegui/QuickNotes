@@ -24,13 +24,13 @@ fun EditNoteScreen(
     editNoteViewModel: EditNoteViewModel = hiltViewModel(),
     noteModel: NoteModel,
     onBack: () -> Unit,
-    onEdit: (noteId: String) -> Unit
+    onEdit: (note: NoteModel) -> Unit
 ) {
     val uiState = editNoteViewModel.uiState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(uiState.wasSuccessfullyEdited) {
         if (uiState.wasSuccessfullyEdited) {
-            uiState.noteModel.id?.let(onEdit)
+            onEdit(uiState.noteModel)
         }
     }
 
