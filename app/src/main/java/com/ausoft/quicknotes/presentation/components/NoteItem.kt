@@ -42,14 +42,14 @@ fun NoteItem(
                     )
                 )
             },
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF59D)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -57,7 +57,7 @@ fun NoteItem(
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
-                color = Color.DarkGray
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }
