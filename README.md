@@ -18,7 +18,9 @@ QuickNotes is developed using the following technologies:
 
 ## 📷 Screenshots
 
-(Make sure to upload your 6 images and link them here in markdown)
+<img src="assets/screenshots/add_note.png" width="250"> <img src="assets/screenshots/list_of_notes.png" width="250">  
+<img src="assets/screenshots/detail_of_notes.png" width="250"> <img src="assets/screenshots/edit_note.png" width="250">  
+<img src="assets/screenshots/delete_note.png" width="250">
 
 ## ⚡ Main Features
 
@@ -44,7 +46,7 @@ If you want to contribute to QuickNotes, follow us on GitHub and submit your pul
 
 ## 🌟 Credits
 
-Developed by [Your Name].
+Developed by [Aldo Urtusuastegui].
 
 ## © License
 
