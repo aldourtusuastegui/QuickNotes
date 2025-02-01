@@ -18,15 +18,20 @@ QuickNotes is developed using the following technologies:
 
 ## 📷 Screenshots
 
-<img src="assets/screenshots/add_note.png" width="250"> <img src="assets/screenshots/list_of_notes.png" width="250">  
-<img src="assets/screenshots/detail_of_notes.png" width="250"> <img src="assets/screenshots/edit_note.png" width="250">  
-<img src="assets/screenshots/delete_note.png" width="250">
+<p align="center">
+  <img src="assets/screenshots/add_note.png" width="250"> 
+  <img src="assets/screenshots/list_of_notes.png" width="250">
+  <img src="assets/screenshots/detail_of_notes.png" width="250">
+</p>
+<p align="center">
+  <img src="assets/screenshots/edit_note.png" width="250">
+  <img src="assets/screenshots/delete_note.png" width="250">
+</p>
 
 ## ⚡ Main Features
 
 - Add, edit, delete, and list notes easily.
 - Firebase synchronization for multi-device access.
-- Support for light and dark modes.
 - Modern design based on Material 3.
 - High performance thanks to coroutines and optimized architectures.
 
@@ -46,9 +51,8 @@ If you want to contribute to QuickNotes, follow us on GitHub and submit your pul
 
 ## 🌟 Credits
 
-Developed by [Aldo Urtusuastegui].
+Developed by Aldo Urtusuastegui.
 
 ## © License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
